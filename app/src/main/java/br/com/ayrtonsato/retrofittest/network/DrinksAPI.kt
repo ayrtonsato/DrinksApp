@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.Response
 
 interface DrinksAPI {
-    @GET("/list.php?c=list")
+    @GET("list.php?c=list")
     suspend fun getCategories(): Response<DrinkCategory>
 }

@@ -1,6 +1,6 @@
-package br.com.ayrtonsato.retrofittest.network
+package br.com.ayrtonsato.drinksapp.model.network
 
-import br.com.ayrtonsato.retrofittest.util.Constants
+import br.com.ayrtonsato.drinksapp.util.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

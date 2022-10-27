@@ -1,4 +1,4 @@
-package br.com.ayrtonsato.retrofittest.adapter
+package br.com.ayrtonsato.drinksapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,11 +6,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import br.com.ayrtonsato.retrofittest.databinding.ItemDrinkCategoryBinding
-import br.com.ayrtonsato.retrofittest.model.Drink
-import br.com.ayrtonsato.retrofittest.model.DrinkCategory
+import br.com.ayrtonsato.drinksapp.databinding.ItemDrinkCategoryBinding
+import br.com.ayrtonsato.drinksapp.model.DrinkCategory
 
-class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoryAdapter(
+    private val onClick: (DrinkCategory) -> Unit
+) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
     inner class CategoryViewHolder(
         itemView: ItemDrinkCategoryBinding
     ) : RecyclerView.ViewHolder(itemView.root) {
@@ -20,16 +21,19 @@ class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolde
             tvCategory = itemView.tvCategory
         }
 
-        fun bind(category: Drink) {
-            tvCategory.text = category.strCategory
+        fun bind(drinkCategory: DrinkCategory, onClick: (DrinkCategory) -> Unit) {
+            tvCategory.text = drinkCategory.strCategory
+            itemView.setOnClickListener {
+                onClick(drinkCategory)
+            }
         }
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<Drink>() {
-        override fun areItemsTheSame(oldItem: Drink, newItem: Drink): Boolean =
+    private val differCallback = object : DiffUtil.ItemCallback<DrinkCategory>() {
+        override fun areItemsTheSame(oldItem: DrinkCategory, newItem: DrinkCategory): Boolean =
             oldItem.strCategory == newItem.strCategory
 
-        override fun areContentsTheSame(oldItem: Drink, newItem: Drink): Boolean =
+        override fun areContentsTheSame(oldItem: DrinkCategory, newItem: DrinkCategory): Boolean =
             oldItem == newItem
     }
 
@@ -46,12 +50,12 @@ class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolde
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val drinkCategory = differ.currentList[position]
-        holder.bind(drinkCategory)
+        holder.bind(drinkCategory, onClick)
     }
 
     override fun getItemCount(): Int = differ.currentList.size
 
-    fun updateList(categories: List<Drink>) {
+    fun updateList(categories: List<DrinkCategory>) {
         differ.submitList(categories)
     }
 }

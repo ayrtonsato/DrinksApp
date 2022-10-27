@@ -7,7 +7,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "br.com.ayrtonsato.retrofittest"
+        applicationId "br.com.ayrtonsato.drinksapp"
         minSdk 23
         targetSdk 32
         versionCode 1

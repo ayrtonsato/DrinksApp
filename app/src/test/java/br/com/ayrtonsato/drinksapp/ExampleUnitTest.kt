@@ -1,4 +1,4 @@
-package br.com.ayrtonsato.retrofittest
+package br.com.ayrtonsato.drinksapp
 
 import org.junit.Test
 

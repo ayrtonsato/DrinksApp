@@ -1,12 +1,12 @@
 package br.com.ayrtonsato.drinksapp.ui
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
+import br.com.ayrtonsato.drinksapp.R
 import br.com.ayrtonsato.drinksapp.adapter.CategoryAdapter
 import br.com.ayrtonsato.drinksapp.base.BaseActivity
 import br.com.ayrtonsato.drinksapp.databinding.ActivityMainBinding
@@ -51,7 +51,7 @@ class MainActivity : BaseActivity(), CategoryContract.View {
     }
 
     private fun onClick(drink: DrinkCategory) {
-        val intent = Intent(this, DrinkActivity::class.java)
+        val intent = Intent(this, DrinkListActivity::class.java)
         val category = drink.strCategory.replace(" ", "_")
         intent.putExtra(Constants.DRINK_CATEGORY, category)
         startActivity(intent)
@@ -88,7 +88,7 @@ class MainActivity : BaseActivity(), CategoryContract.View {
         Toast
             .makeText(
                 this@MainActivity,
-                "Erro ao buscar informação",
+                getString(R.string.error_fetch_categories),
                 Toast.LENGTH_LONG
             )
             .show()

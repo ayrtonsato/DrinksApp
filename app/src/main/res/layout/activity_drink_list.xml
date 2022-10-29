@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.DrinkActivity">
+    tools:context=".ui.DrinkListActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clProgress"
         android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
             android:id="@+id/tvLoadingDrinks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Carregando Drinks"
+            android:text="@string/loading_drink_list"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/pbDrinks"
             app:layout_constraintEnd_toEndOf="parent"

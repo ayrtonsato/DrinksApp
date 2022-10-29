@@ -1,21 +1,24 @@
 package br.com.ayrtonsato.drinksapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
-import br.com.ayrtonsato.drinksapp.adapter.DrinksAdapter
+import br.com.ayrtonsato.drinksapp.R
+import br.com.ayrtonsato.drinksapp.adapter.DrinkListAdapter
 import br.com.ayrtonsato.drinksapp.base.BaseActivity
-import br.com.ayrtonsato.drinksapp.databinding.ActivityDrinkBinding
+import br.com.ayrtonsato.drinksapp.databinding.ActivityDrinkListBinding
+import br.com.ayrtonsato.drinksapp.model.Drink
 import br.com.ayrtonsato.drinksapp.model.DrinkList
 import br.com.ayrtonsato.drinksapp.model.network.DrinksDataSource
 import br.com.ayrtonsato.drinksapp.presenter.drinks.DrinksContract
 import br.com.ayrtonsato.drinksapp.presenter.drinks.DrinksPresenter
 import br.com.ayrtonsato.drinksapp.util.Constants
 
-class DrinkActivity : BaseActivity(), DrinksContract.DrinksView {
+class DrinkListActivity : BaseActivity(), DrinksContract.DrinksView {
 
     private lateinit var category: String
 
@@ -25,11 +28,13 @@ class DrinkActivity : BaseActivity(), DrinksContract.DrinksView {
     }
 
     private val binding by lazy {
-        ActivityDrinkBinding.inflate(layoutInflater)
+        ActivityDrinkListBinding.inflate(layoutInflater)
     }
 
-    private val drinksAdapter by lazy {
-        DrinksAdapter()
+    private val drinkListAdapter by lazy {
+        DrinkListAdapter {
+            onItemClick(it)
+        }
     }
 
     private lateinit var presenter: DrinksContract.DrinksPresenter
@@ -56,27 +61,33 @@ class DrinkActivity : BaseActivity(), DrinksContract.DrinksView {
     private fun configRecycle() {
         with(binding.rvDrinks) {
             visibility = View.GONE
-            adapter = drinksAdapter
-            layoutManager = LinearLayoutManager(this@DrinkActivity)
+            adapter = drinkListAdapter
+            layoutManager = LinearLayoutManager(this@DrinkListActivity)
             addItemDecoration(
                 DividerItemDecoration(
-                    this@DrinkActivity,
+                    this@DrinkListActivity,
                     DividerItemDecoration.VERTICAL
                 )
             )
         }
     }
 
+    private fun onItemClick(drink: Drink) {
+        val intent = Intent(this, DrinkPreparationActivity::class.java)
+        intent.putExtra(Constants.DRINK_ID, drink.idDrink)
+        startActivity(intent)
+    }
+
     override fun showDrinks(drinks: DrinkList) {
         binding.rvDrinks.visibility = View.VISIBLE
-        drinksAdapter.submitNewList(drinks.drinks)
+        drinkListAdapter.submitNewList(drinks.drinks)
     }
 
     override fun errorOnGetDrinks() {
         Toast
             .makeText(
-                this@DrinkActivity,
-                "Erro ao pegar lista de drinks",
+                this@DrinkListActivity,
+                getString(R.string.error_fetch_drink_list),
                 Toast.LENGTH_LONG
             ).show()
     }

@@ -1,6 +1,8 @@
 package br.com.ayrtonsato.drinksapp.model.network
 
+import br.com.ayrtonsato.drinksapp.model.FormatDrinkPreparation
 import br.com.ayrtonsato.drinksapp.presenter.category.CategoryContract
+import br.com.ayrtonsato.drinksapp.presenter.drink.DrinkPreparationContract
 import br.com.ayrtonsato.drinksapp.presenter.drinks.DrinksContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -35,6 +37,27 @@ class DrinksDataSource {
                 drinksPresenter.onComplete()
             }
 
+        }
+    }
+
+    fun getDrinkById(
+        drinkPresenter: DrinkPreparationContract.DrinkPreparationPresenter,
+        id: String
+    ) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val result = Network.api.getDrinkById(id)
+            if (result.isSuccessful) {
+                result.body()?.let {
+                    val drink = FormatDrinkPreparation(
+                        result.body()!!.drinks[0]
+                    ).format()
+                    drinkPresenter.onSuccess(drink)
+                    drinkPresenter.onComplete()
+                }
+            } else {
+                drinkPresenter.onError()
+                drinkPresenter.onError()
+            }
         }
     }
 }

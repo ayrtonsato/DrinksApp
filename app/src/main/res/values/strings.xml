@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">DrinksApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ingredients_title">Ingredients</string>
+    <string name="preparation_title">Instructions</string>
+    <string name="error_fetch_drink">Fetch Drink Error</string>
+    <string name="error_fetch_drink_list">Fetch Drink List Error</string>
+    <string name="error_fetch_categories">Fetch Categories Error</string>
+    <string name="loading_drink_list">Loading drink list</string>
+    <string name="loading_categories">Loading Categories</string>
 </resources>

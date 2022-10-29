@@ -16,7 +16,10 @@
         android:theme="@style/Theme.DrinksApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.DrinkActivity"
+            android:name=".ui.DrinkPreparationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.DrinkListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"

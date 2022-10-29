@@ -11,7 +11,9 @@ import br.com.ayrtonsato.drinksapp.databinding.ItemDrinkBinding
 import br.com.ayrtonsato.drinksapp.model.Drink
 import com.bumptech.glide.Glide
 
-class DrinksAdapter : RecyclerView.Adapter<DrinksAdapter.DrinksViewHolder>() {
+class DrinkListAdapter(
+    private val onClick: (Drink) -> Unit
+) : RecyclerView.Adapter<DrinkListAdapter.DrinksViewHolder>() {
     inner class DrinksViewHolder(
         itemView: ItemDrinkBinding
     ) : RecyclerView.ViewHolder(itemView.root) {
@@ -23,13 +25,16 @@ class DrinksAdapter : RecyclerView.Adapter<DrinksAdapter.DrinksViewHolder>() {
             itemView.tvDrinkName
         }
 
-        fun bind(drink: Drink) {
+        fun bind(drink: Drink, onClick: (Drink) -> Unit) {
             tv.text = drink.strDrink
             Glide
                 .with(itemView.rootView)
                 .load(drink.strDrinkThumb)
                 .centerCrop()
                 .into(iv)
+            itemView.setOnClickListener {
+                onClick(drink)
+            }
         }
     }
 
@@ -51,7 +56,7 @@ class DrinksAdapter : RecyclerView.Adapter<DrinksAdapter.DrinksViewHolder>() {
 
     override fun onBindViewHolder(holder: DrinksViewHolder, position: Int) {
         val drink = differ.currentList[position]
-        holder.bind(drink)
+        holder.bind(drink, onClick)
     }
 
     override fun getItemCount(): Int = differ.currentList.size

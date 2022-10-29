@@ -6,8 +6,6 @@ import br.com.ayrtonsato.drinksapp.model.DrinkCategoryList
 
 interface CategoryContract {
     interface View: BaseContract.View {
-        fun showProgressBar()
-        fun hideProgressBar()
         fun showCategories(drinksCategory: List<DrinkCategory>)
         fun errorOnGetCategories()
     }

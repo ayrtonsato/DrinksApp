@@ -1,7 +1,10 @@
 package br.com.ayrtonsato.drinksapp.presenter.category
 
+import android.util.Log
+import br.com.ayrtonsato.drinksapp.base.BaseContract
 import br.com.ayrtonsato.drinksapp.model.DrinkCategoryList
 import br.com.ayrtonsato.drinksapp.model.network.DrinksDataSource
+import kotlinx.coroutines.launch
 
 class CategoryPresenter(
     private val dataSource: DrinksDataSource
@@ -33,5 +36,4 @@ class CategoryPresenter(
     override fun detachView() {
         this.view = null
     }
-
 }

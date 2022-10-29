@@ -1,13 +1,14 @@
 package br.com.ayrtonsato.drinksapp.ui
 
 import android.content.Intent
-import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewbinding.ViewBinding
 import br.com.ayrtonsato.drinksapp.adapter.CategoryAdapter
+import br.com.ayrtonsato.drinksapp.base.BaseActivity
 import br.com.ayrtonsato.drinksapp.databinding.ActivityMainBinding
 import br.com.ayrtonsato.drinksapp.model.DrinkCategory
 import br.com.ayrtonsato.drinksapp.model.network.DrinksDataSource
@@ -16,7 +17,7 @@ import br.com.ayrtonsato.drinksapp.presenter.category.CategoryPresenter
 import br.com.ayrtonsato.drinksapp.util.Constants
 
 
-class MainActivity : AppCompatActivity(), CategoryContract.View {
+class MainActivity : BaseActivity(), CategoryContract.View {
 
     private val categoryAdapter by lazy {
         CategoryAdapter() {
@@ -30,11 +31,10 @@ class MainActivity : AppCompatActivity(), CategoryContract.View {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        configRecycle()
+    override fun getLayout(): ViewBinding = binding
 
+    override fun onInject() {
+        configRecycle()
         val dataSource = DrinksDataSource()
         presenter = CategoryPresenter(dataSource)
         presenter.requestCategories()
@@ -52,13 +52,14 @@ class MainActivity : AppCompatActivity(), CategoryContract.View {
 
     private fun onClick(drink: DrinkCategory) {
         val intent = Intent(this, DrinkActivity::class.java)
-        val category = drink.strCategory.replace(" ", "/")
-        intent.putExtra(Constants.DRINK_CATGEGORY, category)
+        val category = drink.strCategory.replace(" ", "_")
+        intent.putExtra(Constants.DRINK_CATEGORY, category)
         startActivity(intent)
     }
 
     private fun configRecycle() {
         with(binding.rvDrinkCategories) {
+            visibility = View.GONE
             adapter = categoryAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
             addItemDecoration(
@@ -71,14 +72,15 @@ class MainActivity : AppCompatActivity(), CategoryContract.View {
     }
 
     override fun showProgressBar() {
-        binding.rvDrinkCategories.visibility = View.VISIBLE
+        binding.clProgress.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
         binding.clProgress.visibility = View.GONE
     }
 
-    override fun showCategories(drinksCategory: List<br.com.ayrtonsato.drinksapp.model.DrinkCategory>) {
+    override fun showCategories(drinksCategory: List<DrinkCategory>) {
+        binding.rvDrinkCategories.visibility = View.VISIBLE
         categoryAdapter.updateList(drinksCategory)
     }
 
